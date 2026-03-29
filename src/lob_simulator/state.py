@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from lob_simulator.types import OrderStatus, OrderType, Side
+from .types import OrderStatus, OrderType, Side
 
 
 @dataclass

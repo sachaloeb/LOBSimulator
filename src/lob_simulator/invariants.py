@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from lob_simulator.state import LOBState
+from .state import LOBState
 
 
 class BookInvariantError(Exception):
