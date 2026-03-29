@@ -1,6 +1,6 @@
 # Market Microstructure + Game-Theory Execution Toy Model
 
-**Author:** Sacha Loeb | **Status:** Week 1–2 skeleton
+**Author:** Sacha Loeb
 
 ## Assumptions
 
