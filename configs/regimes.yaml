@@ -1,0 +1,58 @@
+# configs/regimes.yaml
+# Regime parameter sets for the LOB time-sliced simulator.
+# Each regime represents a distinct market microstructure environment.
+# Finalised: Week 2 (2026-03-28)
+
+regimes:
+
+  regime_A:
+    name: "Tight spread / Low impact"
+    description: "Liquid, efficient market — baseline regime."
+    spread_ticks: 1          # initial spread expressed in tick units
+    lambda_bid:   5.0        # Poisson arrival rate: limit bid orders per tick
+    lambda_ask:   5.0        # Poisson arrival rate: limit ask orders per tick
+    lambda_market: 1.0       # Poisson arrival rate: market orders per tick
+    impact_coeff: 0.001      # linear price impact: mid drifts by coeff × net_flow
+    cancel_prob:  0.05       # per-tick cancellation probability for resting orders
+    vol_per_order: 1.0       # base order size (units); actual size ~ Exp(1/vol_per_order)
+
+  regime_B:
+    name: "Wide spread / Low impact"
+    description: "Illiquid market, low urgency — limit orders competitive."
+    spread_ticks: 5
+    lambda_bid:   3.0
+    lambda_ask:   3.0
+    lambda_market: 1.0
+    impact_coeff: 0.001
+    cancel_prob:  0.05
+    vol_per_order: 1.0
+
+  regime_C:
+    name: "Tight spread / High impact"
+    description: "Liquid but price-sensitive — adverse selection risk for LPs."
+    spread_ticks: 1
+    lambda_bid:   5.0
+    lambda_ask:   5.0
+    lambda_market: 1.0
+    impact_coeff: 0.01
+    cancel_prob:  0.10
+    vol_per_order: 1.0
+
+  regime_D:
+    name: "Wide spread / High impact"
+    description: "Stressed market — high cost, high impact, volatile regime."
+    spread_ticks: 5
+    lambda_bid:   3.0
+    lambda_ask:   3.0
+    lambda_market: 1.0
+    impact_coeff: 0.01
+    cancel_prob:  0.10
+    vol_per_order: 1.0
+
+experiment_defaults:
+  T:          1000    # ticks per simulation run
+  n_runs:     30      # independent replications per regime (seed = seed_base + run_idx)
+  seed_base:  42
+  tick_size:  0.01
+  max_depth:  3
+  queue_model: "FIFO"
