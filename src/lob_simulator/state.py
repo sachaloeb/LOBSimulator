@@ -99,6 +99,37 @@ class LOBState:
         """Total volume resting on the ask side."""
         return sum(lvl.total_volume for lvl in self.asks)
 
+    def get_level_for_price(self, side: Side, price: float) -> PriceLevel | None:
+        """Return the PriceLevel at exactly `price` on `side`, or None."""
+        levels = self.bids if side == Side.BID else self.asks
+        for lvl in levels:
+            if abs(lvl.price - price) < 1e-9:
+                return lvl
+        return None
+
+    def with_updated_side(self, side: Side, new_levels: list[PriceLevel]) -> LOBState:
+        """Return a new LOBState with one side replaced. Does NOT mutate self.
+
+        The untouched side is shared by reference — callers that further mutate
+        must deepcopy it themselves (the MatchingEngine does this).
+        """
+        if side == Side.BID:
+            return LOBState(
+                bids=new_levels,
+                asks=self.asks,
+                mid_price=self.mid_price,
+                timestamp=self.timestamp,
+                max_depth=self.max_depth,
+            )
+        else:
+            return LOBState(
+                bids=self.bids,
+                asks=new_levels,
+                mid_price=self.mid_price,
+                timestamp=self.timestamp,
+                max_depth=self.max_depth,
+            )
+
 
 @dataclass(frozen=True)
 class SimulatorSpec:
