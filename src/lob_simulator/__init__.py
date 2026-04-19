@@ -10,6 +10,14 @@ from .strategies import ExecutionStrategy, Hybrid, PureLimit, PureMarket
 from .simulation import ExecutionResult, SimulationError, TickLog, run_simulation
 from .metrics import ExecutionMetrics, aggregate_metrics, compute_metrics
 from .runner import STRATEGY_REGISTRY, SweepConfig, load_regimes, run_sweep
+from .game_theory import (
+    PayoffParams,
+    build_payoff_matrix,
+    compute_lp_payoff,
+    compute_lt_payoff,
+    find_best_responses,
+    find_equilibrium,
+)
 
 __all__ = [
     "MatchingEngine",
@@ -39,4 +47,10 @@ __all__ = [
     "SimulatorSpec",
     "BookInvariantError",
     "check_book_invariants",
+    "PayoffParams",
+    "compute_lt_payoff",
+    "compute_lp_payoff",
+    "build_payoff_matrix",
+    "find_best_responses",
+    "find_equilibrium",
 ]

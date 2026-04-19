@@ -1,4 +1,4 @@
-.PHONY: test install lint
+.PHONY: test install lint game-theory
 
 install:
 	uv pip install -e ".[dev]"
@@ -14,6 +14,9 @@ sweep-quick:
 
 chart:
 	uv run python -c "import pandas as pd; from lob_simulator.charts import plot_slippage_vs_size; plot_slippage_vs_size(pd.read_csv('results/sweep_results.csv'))"
+
+game-theory:
+	uv run python notebooks/02_game_theory.py
 
 lint:
 	uv run python -m py_compile src/lob_simulator/types.py
