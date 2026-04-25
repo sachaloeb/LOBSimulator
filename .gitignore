@@ -10,5 +10,16 @@ env/
 venv/
 ENV/
 env.bak/
-results/
-charts/
+# Build artifacts
+dist/
+*.egg-info/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+# OS
+.DS_Store
+
+# Test / coverage
+.coverage
+htmlcov/
+WEEK6_VERIFICATION.md
