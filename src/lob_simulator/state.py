@@ -69,8 +69,7 @@ class LOBState:
     timestamp: int
     max_depth: int = 3
 
-    # TODO(week-3): implement FIFO matching engine hook
-    # TODO(week-3): implement metrics snapshot collection
+    # Matching is handled by MatchingEngine (engine.py); metrics by metrics.py.
 
     @property
     def best_bid(self) -> float | None:
@@ -176,8 +175,8 @@ class SimulatorSpec:
     seed: int = 42          # master RNG seed; all randomness derived from this
     regime: str = "regime_A"  # must match a key in configs/regimes.yaml
 
-    # TODO(week-3): implement simulation loop: run(spec) -> list[LOBState]
-    # TODO(week-5): implement game-theory payoff model (LP vs LT)
+    # Simulation loop: simulation.py::run_simulation()
+    # Game-theory layer: game_theory.py::build_payoff_matrix()
 
     def __post_init__(self) -> None:
         """Validate frozen configuration invariants."""

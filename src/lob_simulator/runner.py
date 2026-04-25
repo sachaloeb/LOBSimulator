@@ -24,6 +24,8 @@ STRATEGY_REGISTRY: dict[str, ExecutionStrategy] = {
 
 @dataclass
 class SweepConfig:
+    """Configuration for a full factorial sweep across regimes, strategies, and sizes."""
+
     order_sizes: list[float] = field(
         default_factory=lambda: [1.0, 2.0, 5.0, 10.0, 20.0, 50.0]
     )
@@ -43,6 +45,14 @@ class SweepConfig:
 
 
 def load_regimes(config_path: Path = Path("configs/regimes.yaml")) -> dict:
+    """Load regime parameter dicts from a YAML config file.
+
+    Args:
+        config_path: Path to regimes YAML file.
+
+    Returns:
+        Dict mapping regime names to their parameter dicts.
+    """
     with open(config_path) as f:
         data = yaml.safe_load(f)
     return data["regimes"]
@@ -53,6 +63,16 @@ def run_sweep(
     regimes: dict,
     results_dir: Path = Path("results"),
 ) -> pd.DataFrame:
+    """Run a full factorial sweep and write results to CSV.
+
+    Args:
+        sweep_config: Sweep parameters (sizes, n_runs, strategies, regimes).
+        regimes: Dict of regime parameter dicts from ``load_regimes``.
+        results_dir: Directory to write ``sweep_results.csv`` into.
+
+    Returns:
+        DataFrame with one row per (regime, strategy, order_size) aggregate.
+    """
     results_dir.mkdir(parents=True, exist_ok=True)
     rows = []
 

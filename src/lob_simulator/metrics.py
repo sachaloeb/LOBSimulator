@@ -12,6 +12,18 @@ from .types import Side
 
 @dataclass(frozen=True)
 class ExecutionMetrics:
+    """Per-run execution quality metrics derived from an ExecutionResult.
+
+    Attributes:
+        implementation_shortfall: Signed cost vs arrival mid-price (currency units).
+        slippage_bps: IS normalised to basis points of arrival mid-price.
+        fill_rate: Fraction of target_qty that was filled (0–1+).
+        is_complete_fill: True if filled_qty >= target_qty.
+        time_to_fill: Tick at which full fill was achieved, or None.
+        avg_fill_price: VWAP of agent fills, or None.
+        arrival_mid_price: Mid-price at tick 0.
+    """
+
     implementation_shortfall: float
     slippage_bps: float
     fill_rate: float
@@ -22,6 +34,14 @@ class ExecutionMetrics:
 
 
 def compute_metrics(result: ExecutionResult) -> ExecutionMetrics:
+    """Compute execution quality metrics from a single simulation result.
+
+    Args:
+        result: Output of ``run_simulation``.
+
+    Returns:
+        Frozen ExecutionMetrics dataclass.
+    """
     IS_val = 0.0
     slippage_bps = 0.0
     if result.avg_fill_price is not None and result.arrival_mid_price > 0:
@@ -42,6 +62,14 @@ def compute_metrics(result: ExecutionResult) -> ExecutionMetrics:
 
 
 def aggregate_metrics(metrics_list: list[ExecutionMetrics]) -> dict:
+    """Aggregate metrics across multiple runs into summary statistics.
+
+    Args:
+        metrics_list: List of per-run ExecutionMetrics.
+
+    Returns:
+        Dict with keys like ``IS_mean``, ``slippage_bps_mean``, ``fill_rate_mean``, etc.
+    """
     slippages = np.array([m.slippage_bps for m in metrics_list])
     ISs = np.array([m.implementation_shortfall for m in metrics_list])
     fill_rates = np.array([m.fill_rate for m in metrics_list])

@@ -18,6 +18,7 @@ from .game_theory import (
     find_best_responses,
     find_equilibrium,
 )
+from .charts import plot_slippage_vs_size
 
 __all__ = [
     "MatchingEngine",
@@ -53,4 +54,5 @@ __all__ = [
     "build_payoff_matrix",
     "find_best_responses",
     "find_equilibrium",
+    "plot_slippage_vs_size",
 ]

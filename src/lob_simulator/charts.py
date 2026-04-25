@@ -32,6 +32,7 @@ def _plot_panel_grid(
     y_range: tuple[float, float] | None = None,
     x_col: str = "order_size",
 ) -> None:
+    """Render a 2x2 grid of line plots, one panel per regime."""
     plt.style.use("seaborn-v0_8-whitegrid")
     fig, axes = plt.subplots(2, 2, figsize=(12, 9), sharey=True)
     regimes_order = ["regime_A", "regime_B", "regime_C", "regime_D"]
@@ -79,6 +80,16 @@ def plot_slippage_vs_size(
     ci_hi_col: str = "slippage_bps_p75",
     x_col: str = "order_size",
 ) -> None:
+    """Generate slippage-vs-size and fill-rate-vs-size panel charts.
+
+    Args:
+        df: Sweep results DataFrame.
+        output_path: Path for the main slippage chart PNG.
+        metric_col: Column to plot on y-axis.
+        ci_lo_col: Column for lower CI band.
+        ci_hi_col: Column for upper CI band.
+        x_col: Column for x-axis.
+    """
     _plot_panel_grid(
         df,
         output_path=output_path,

@@ -19,6 +19,17 @@ class SimulationError(Exception):
 
 @dataclass
 class TickLog:
+    """Record of one simulation tick for post-hoc analysis.
+
+    Attributes:
+        tick: Tick index within the simulation.
+        background_trades: Trades from background order flow this tick.
+        agent_order: The order the agent submitted (or None).
+        agent_trades: Fills attributed to the agent this tick.
+        net_signed_flow: Net signed order flow (positive = buy pressure).
+        mid_price_after: Mid-price at the end of this tick.
+    """
+
     tick: int
     background_trades: list[TradeRecord]
     agent_order: Order | None
@@ -29,6 +40,22 @@ class TickLog:
 
 @dataclass
 class ExecutionResult:
+    """Complete output of a single simulation run.
+
+    Attributes:
+        arrival_mid_price: Mid-price at tick 0 (decision price for IS).
+        target_qty: Quantity the agent intended to execute.
+        side: BID or ASK.
+        strategy_name: Name of the execution strategy used.
+        regime_name: Regime key from regimes.yaml.
+        spec: Frozen simulator configuration.
+        filled_qty: Total quantity actually filled.
+        agent_trades: All trade records attributed to the agent.
+        tick_log: Per-tick diagnostic records.
+        avg_fill_price: VWAP of agent fills, or None if nothing filled.
+        ticks_to_complete: First tick at which cumulative fill >= target, or None.
+    """
+
     arrival_mid_price: float
     target_qty: float
     side: Side
@@ -54,7 +81,19 @@ def run_simulation(
     side: Side = Side.BID,
     validate: bool = False,
 ) -> ExecutionResult:
-    """Execute one simulation of spec.T ticks."""
+    """Execute one simulation run of ``spec.T`` ticks.
+
+    Args:
+        spec: Frozen simulator configuration (seed, T, regime, etc.).
+        regime_params: Dict of microstructure parameters from regimes.yaml.
+        strategy: Execution strategy for the agent.
+        target_qty: Quantity the agent wants to fill.
+        side: Which side the agent trades on.
+        validate: If True, check book invariants after every tick.
+
+    Returns:
+        ExecutionResult with all fills, metrics inputs, and tick logs.
+    """
     rng = np.random.default_rng(spec.seed)
     engine = MatchingEngine()
     state = engine.initialize_lob(regime_params, spec, rng)
