@@ -19,6 +19,9 @@ dependencies = [
 dev = [
     "pytest>=8.0",
     "pytest-cov>=5.0",
+    "jupytext>=1.16",
+    "jupyter>=1.0",
+    "nbconvert>=7.0",
 ]
 
 [tool.pytest.ini_options]
