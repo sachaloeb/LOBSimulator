@@ -23,7 +23,8 @@ dist/
 .coverage
 htmlcov/
 WEEK6_VERIFICATION.md
-linkedin/
-scripts/
 results/
 charts/
+showcase/execution_cost_by_regime.png
+showcase/nash_equilibrium_summary.png
+showcase/post.md

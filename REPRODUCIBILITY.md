@@ -13,7 +13,7 @@ cd LOBSimulator
 make run
 ```
 
-This runs: `install → test → sweep-quick (n_runs=3) → game-theory → linkedin`.
+This runs: `install → test → sweep-quick (n_runs=3) → game-theory → showcase`.
 
 ## Full Reproducibility (~15 min)
 
@@ -34,9 +34,9 @@ After `make run` or `make all`:
 | `charts/slippage_vs_size.png` | 4-panel slippage chart | 200–400 KB |
 | `charts/slippage_vs_size_fill_rate.png` | 4-panel fill rate chart | 150–300 KB |
 | `charts/strategic_regimes_table.png` | Payoff heatmap | 100–200 KB |
-| `linkedin/main_chart.png` | LinkedIn-optimised 2-panel chart | 150–300 KB |
-| `linkedin/strategic_regimes_table.png` | LinkedIn-optimised table image | 100–200 KB |
-| `linkedin/post_draft.md` | Draft LinkedIn post | <1 KB |
+| `showcase/execution_cost_by_regime.png` | Execution cost 2-panel chart | 150–300 KB |
+| `showcase/nash_equilibrium_summary.png` | Nash equilibrium summary table image | 100–200 KB |
+| `showcase/post.md` | Draft post | <1 KB |
 
 ## Seed Logging & Determinism
 
@@ -69,6 +69,6 @@ On a typical laptop (M1/M2 Mac or modern x86):
 | `make sweep-quick` | ~30 s |
 | `make sweep` (n=30) | ~5 min |
 | `make game-theory` | ~1 s |
-| `make linkedin` | ~2 s |
+| `make showcase` | ~2 s |
 | `make run` (full quick) | ~1 min |
 | `make all` (full n=30) | ~8 min |

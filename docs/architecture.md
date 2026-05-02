@@ -54,7 +54,7 @@ configs/regimes.yaml
          ▼
   results/strategic_regimes_table.csv
   charts/*.png
-  linkedin/*.png
+  showcase/*.png
 ```
 
 ## Module Reference

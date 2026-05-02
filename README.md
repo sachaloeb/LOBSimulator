@@ -4,7 +4,7 @@
 
 > When should a trader use a market order vs a limit order — and how does microstructure flip the answer?
 
-![Slippage vs Order Size](linkedin/main_chart.png)
+![Slippage vs Order Size](showcase/execution_cost_by_regime.png)
 
 [![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.11+-blue)]()
@@ -15,7 +15,7 @@
 ```bash
 git clone https://github.com/sachaloeb/LOBSimulator.git
 cd LOBSimulator
-make run          # install → test → sweep (n=3) → game theory → LinkedIn assets
+make run          # install → test → sweep (n=3) → game theory → showcase figures
 ```
 
 For full n=30 confidence intervals: `make all` (~8 min).
@@ -46,11 +46,11 @@ LOBSimulator/
 │   ├── 01_baseline_sweep.py    ← CLI: run sweep and produce charts
 │   └── 02_game_theory.py       ← CLI: build payoff matrix and heatmap
 ├── scripts/
-│   └── build_linkedin_assets.py ← Generate LinkedIn chart, table, and post draft
+│   └── generate_showcase_figures.py ← Generate showcase figures, table, and post copy
 ├── tests/                ← 36 tests (invariants, engine, strategies, metrics, simulation, game theory)
 ├── results/              ← CSV outputs (sweep_results, strategic_regimes_table)
 ├── charts/               ← Full diagnostic charts
-├── linkedin/             ← LinkedIn-ready assets (main_chart, table, post_draft)
+├── showcase/             ← Publication assets (execution_cost_by_regime, nash_equilibrium_summary, post)
 ├── docs/
 │   └── architecture.md   ← Dataflow diagram and module reference
 ├── Makefile              ← make run | make all | make test | make sweep | ...

@@ -6,7 +6,7 @@ Usage:
 
 Outputs:
     results/strategic_regimes_table.csv
-    charts/strategic_regimes_table.png
+    charts/nash_equilibrium_summary.png
 """
 
 from __future__ import annotations
@@ -72,7 +72,7 @@ def main() -> None:
     print(f"Wrote {out_csv}")
 
     # ── Render chart ─────────────────────────────────────────────────
-    out_png = Path("charts/strategic_regimes_table.png")
+    out_png = Path("charts/nash_equilibrium_summary.png")
     out_png.parent.mkdir(parents=True, exist_ok=True)
     _render_heatmaps(matrix, out_png, args.order_size, params)
     print(f"Wrote {out_png}")

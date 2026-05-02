@@ -1,4 +1,4 @@
-.PHONY: test install lint game-theory sweep sweep-quick chart linkedin run all
+.PHONY: test install lint game-theory sweep sweep-quick chart showcase run all
 
 install:
 	uv pip install -e ".[dev]"
@@ -18,8 +18,8 @@ chart:
 game-theory:
 	uv run python notebooks/02_game_theory.py
 
-linkedin:
-	uv run python scripts/build_linkedin_assets.py
+showcase:
+	uv run python scripts/generate_showcase_figures.py
 
 lint:
 	uv run python -m py_compile src/lob_simulator/types.py
@@ -28,7 +28,7 @@ lint:
 	@echo "Syntax OK"
 
 # Quick end-to-end: n_runs=3 for fast demo
-run: install test sweep-quick game-theory linkedin
+run: install test sweep-quick game-theory showcase
 
 # Full reproducibility: n_runs=30
-all: install test sweep game-theory linkedin
+all: install test sweep game-theory showcase
