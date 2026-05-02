@@ -218,38 +218,6 @@ def build_table_image(matrix: pd.DataFrame, regimes: dict) -> None:
     print(f"Wrote {out} ({out.stat().st_size:,} bytes)")
 
 
-def build_post(df: pd.DataFrame, matrix: pd.DataFrame) -> None:
-    """Write the post."""
-    # Compute headline number
-    a_market = df[(df["regime"] == "regime_A") & (df["strategy"] == "pure_market") & (np.isclose(df["order_size"], 5.0))]
-    a_limit = df[(df["regime"] == "regime_A") & (df["strategy"] == "pure_limit") & (np.isclose(df["order_size"], 5.0))]
-
-    mkt_slip = a_market["slippage_bps_mean"].iloc[0] if not a_market.empty else 0
-    lim_slip = a_limit["slippage_bps_mean"].iloc[0] if not a_limit.empty else 0
-    savings = mkt_slip - lim_slip
-
-    low_eq = matrix[(matrix["impact_level"] == "low") & matrix["is_equilibrium"]]
-    high_eq = matrix[(matrix["impact_level"] == "high") & matrix["is_equilibrium"]]
-    low_strat = low_eq["lt_strategy"].iloc[0] if not low_eq.empty else "?"
-    high_strat = high_eq["lt_strategy"].iloc[0] if not high_eq.empty else "?"
-
-    post = f"""\
-Limit orders save {savings:.1f} bps vs market orders in a tight-spread regime — but the advantage shrinks under high price impact.
-
-I built a toy limit order book simulator from scratch: 4 spread/impact regimes, 3 execution strategies (market, limit, hybrid), 1,000-tick simulations with Poisson order flow, seeded for full reproducibility.
-
-Key finding: in the tight-spread/low-impact regime (Regime A), limit orders earn a negative slippage of {lim_slip:.1f} bps while market orders cost {mkt_slip:.1f} bps. Under high impact (Regime D), the gap narrows to <1 bp at small sizes.
-
-The game-theory layer maps this to a 2-player payoff matrix (LP vs LT). Nash equilibrium strategy: {low_strat.replace('_', ' ')} under low impact, {high_strat.replace('_', ' ')} under high impact — payoff magnitudes shift by 10x across regimes.
-
-Honest caveat: this is a toy model with linear impact, no empirical calibration, and a single strategic agent. See the repo's 10-point limitations section.
-
-Code + notebook + full reproducibility: [GitHub link] #quant #marketmicrostructure #gametheory #python
-"""
-
-    out = SHOWCASE_DIR / "post.md"
-    out.write_text(post)
-    print(f"Wrote {out}")
 
 
 def main() -> None:
@@ -282,7 +250,6 @@ def main() -> None:
 
     build_execution_cost_chart(df)
     build_table_image(matrix, regimes)
-    build_post(df, matrix)
     print("\nAll showcase figures generated in showcase/")
 
 
